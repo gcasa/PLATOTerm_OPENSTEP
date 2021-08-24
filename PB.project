@@ -1,0 +1,26 @@
+{
+    APPCLASS = NSApplication; 
+    DYNAMIC_CODE_GEN = YES; 
+    FILESTABLE = {
+        FRAMEWORKS = (AppKit.framework, Foundation.framework); 
+        INTERFACES = (NEXTSTEP_PLATOterm.nib, WINDOWS_PLATOterm.nib); 
+        OTHER_LINKED = (PLATOterm_main.m); 
+        OTHER_SOURCES = (Makefile.preamble, Makefile, Makefile.postamble, m.template, h.template); 
+    }; 
+    LANGUAGE = English; 
+    LOCALIZABLE_FILES = {
+        NEXTSTEP_PLATOterm.nib = NEXTSTEP_PLATOterm.nib; 
+        WINDOWS_PLATOterm.nib = WINDOWS_PLATOterm.nib; 
+    }; 
+    MAKEFILEDIR = "$(NEXT_ROOT)/NextDeveloper/Makefiles/pb_makefiles"; 
+    NEXTSTEP_BUILDTOOL = /bin/gnumake; 
+    NEXTSTEP_INSTALLDIR = "$(HOME)/Apps"; 
+    NEXTSTEP_MAINNIB = NEXTSTEP_PLATOterm.nib; 
+    PDO_UNIX_BUILDTOOL = $NEXT_ROOT/NextDeveloper/bin/make; 
+    PROJECTNAME = PLATOterm; 
+    PROJECTTYPE = Application; 
+    PROJECTVERSION = 2.6; 
+    WINDOWS_BUILDTOOL = $NEXT_ROOT/NextDeveloper/Executables/make; 
+    WINDOWS_INSTALLDIR = /MyApps; 
+    WINDOWS_MAINNIB = WINDOWS_PLATOterm.nib; 
+}
