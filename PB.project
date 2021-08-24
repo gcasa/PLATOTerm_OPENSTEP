@@ -2,7 +2,9 @@
     APPCLASS = NSApplication; 
     DYNAMIC_CODE_GEN = YES; 
     FILESTABLE = {
+        CLASSES = (AppDelegate.m); 
         FRAMEWORKS = (AppKit.framework, Foundation.framework); 
+        H_FILES = (AppDelegate.h); 
         INTERFACES = (NEXTSTEP_PLATOterm.nib, WINDOWS_PLATOterm.nib); 
         OTHER_LINKED = (PLATOterm_main.m); 
         OTHER_SOURCES = (Makefile.preamble, Makefile, Makefile.postamble, m.template, h.template); 

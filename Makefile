@@ -17,6 +17,10 @@ ICONSECTIONS =	-sectcreate __ICON app /NextLibrary/Frameworks/AppKit.framework/R
 
 LOCAL_RESOURCES = NEXTSTEP_PLATOterm.nib WINDOWS_PLATOterm.nib
 
+CLASSES = AppDelegate.m
+
+HFILES = AppDelegate.h
+
 MFILES = PLATOterm_main.m
 
 OTHERSRCS = Makefile.preamble Makefile Makefile.postamble m.template\
