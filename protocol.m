@@ -1,11 +1,14 @@
 /**
- * PLATOTerm64 - A PLATO Terminal for the Commodore 64
+ * PLATOTerm - A PLATO Terminal
  * Based on Steve Peltz's PAD
  * 
  * Author: Thomas Cherryhomes <thom.cherryhomes at gmail dot com>
  * This file written by Steve Peltz. Copyright notice preserved.
  * and this code has been used with permission, and can be considered
  * public domain.
+ *
+ * Adapted for OPENSTEP4.2/Mach on the NeXT by 
+ * <greg.casamento at gmail dot com>
  *
  * protocol.c - Protocol decoder functions 
  */

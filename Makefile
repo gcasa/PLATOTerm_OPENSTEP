@@ -17,9 +17,11 @@ ICONSECTIONS =	-sectcreate __ICON app /NextLibrary/Frameworks/AppKit.framework/R
 
 LOCAL_RESOURCES = NEXTSTEP_PLATOterm.nib WINDOWS_PLATOterm.nib
 
-CLASSES = AppDelegate.m
+CLASSES = AppDelegate.m io.m keyboard.m protocol.m screen.m\
+          terminal.m touch.m PLATOView.m
 
-HFILES = AppDelegate.h
+HFILES = AppDelegate.h io.h keyboard.h protocol.h screen.h terminal.h\
+         touch.h PLATOView.h
 
 MFILES = PLATOterm_main.m
 

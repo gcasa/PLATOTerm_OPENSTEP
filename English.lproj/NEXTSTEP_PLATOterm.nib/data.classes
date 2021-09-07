@@ -1,1 +1,6 @@
-"FirstResponder" = {ACTIONS = {}; CATEGORY = LocalActions; OUTLETS = {}; };
+"AppDelegate" = {
+    ACTIONS = {"createConnection:" = id; "startClient:" = id; }; 
+    OUTLETS = {_hostnameField = id; _panel = id; _portField = id; }; 
+    SUPERCLASS = NSObject; 
+};
+"FirstResponder" = {ACTIONS = {}; OUTLETS = {}; SUPERCLASS = NSObject; };

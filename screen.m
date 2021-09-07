@@ -1,11 +1,16 @@
 /**
- * PLATOTerm64 - A PLATO Terminal
+ * PLATOTerm - A PLATO Terminal
  * Based on Steve Peltz's PAD
  * 
  * Author: Thomas Cherryhomes <thom.cherryhomes at gmail dot com>
+ * Ported To OPENSTEP: Gregory Casamento <greg.casamento at gmail dot com>
  *
  * screen.c - Display output functions
  */
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+
+#import "PLATOView.h"
 
 #include <unistd.h>
 #include "splash.h"
@@ -21,12 +26,14 @@ extern int done;
 
 unsigned char fontm23[2048];
 padRGB backgroundColor={0,0,0};
-//padRGB foregroundColor={255,255,255};
+padRGB foregroundColor={255,255,255};
 unsigned long backgroundPixel, foregroundPixel;
-char win_title[128];
+NSString *win_title;
+NSWindow *win;
+PLATOView *content;
 
-#define TRUE 1
-#define FALSE 0
+//#define TRUE 1
+//#define FALSE 0
 
 extern padBool FastText;
 
@@ -53,15 +60,39 @@ short a,b;
 /**
  * screen_init() - Set up the screen
  */
-screen_init() // hostname, port)
-{/*
-	int i;
-	sprintf(win_title,"PLATOterm: %s:%u",hostname,port);
-	display=XOpenDisplay((char *)0);
-	screen=DefaultScreen(display);
-	black=BlackPixel(display,screen);
-	white=WhitePixel(display,screen);
-	win=XCreateSimpleWindow(display,DefaultRootWindow(display),0,0,512,512,5,white,black);
+void screen_init(char *hostname, unsigned port) // hostname, port)
+{
+    NSRect frame = NSMakeRect(0,0,512,512);
+    NSColor *b = [NSColor colorWithCalibratedRed: 0.0
+                                           green: 0.0
+                                            blue: 0.0
+                                           alpha: 1.0];
+    NSColor *w = [NSColor colorWithCalibratedRed: 1.0
+                                           green: 1.0
+                                            blue: 1.0
+                                           alpha: 1.0];
+
+    win_title = [NSString stringWithFormat: @"PLATOterm: %s:%u", hostname, port];
+    black = 0; // BlackPixel(display,screen);
+    white = 1; //WhitePixel(display,screen);
+    
+    win = [[NSWindow alloc] initWithContentRect: frame   // XCreateSimpleWindow(display,DefaultRootWindow(display),0,0,512,512,5,white,black);
+ 	 			styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask
+				backing: NSBackingStoreBuffered
+				defer: NO];
+
+    content = [[PLATOView alloc] initWithFrame: frame platoScreen: screen];
+
+    [win setContentView: content];
+    [content setBackgroundColor: b];
+    [content setForegroundColor: w];
+    [content clear];
+
+    [win setTitle: win_title];
+    [win orderFrontRegardless];
+    [win center];
+
+    /*
 	XSetStandardProperties(display,win,win_title,win_title,None,NULL,0,NULL);
 	XSelectInput(display,win,ExposureMask|ButtonPressMask|KeyPressMask);
 	gc=XCreateGC(display,win,0,0);
@@ -74,14 +105,15 @@ screen_init() // hostname, port)
 	XSetForeground(display,gc,white);
 	XSync(display,FALSE);
  	sleep(1);	
-	backgroundColor.red=backgroundColor.green=backgroundColor.blue=0;
-	foregroundColor.red=foregroundColor.green=foregroundColor.blue=255;*/
+    */
+    backgroundColor.red=backgroundColor.green=backgroundColor.blue=0;
+    foregroundColor.red=foregroundColor.green=foregroundColor.blue=255;
 }
 
 /**
  * screen_main() - render/preserve screen
  */
-screen_main()
+void screen_main()
 {
 /*
 	if (!XPending(display))
@@ -110,7 +142,7 @@ screen_main()
 }
 
 /*
-screen_handle_client_message(display, e)
+void screen_handle_client_message(display, e)
 Display display;
 XEvent *e;
 {
@@ -123,14 +155,14 @@ XEvent *e;
 /**
  * screen_wait() - Sleep for approx 16.67ms
  */
-screen_wait()
+void screen_wait()
 {
 }
 
 /**
  * screen_beep() - Beep the terminal
  */
-screen_beep()
+void screen_beep()
 {
   NSBeep();
 }
@@ -138,43 +170,41 @@ screen_beep()
 /**
  * screen_clear - Clear the screen
  */
-screen_clear()
+void screen_clear()
 {
-/*
 	io_replay_clear();
 	screen_clear_colors();
 	screen_background(&backgroundColor);
 	screen_foreground(&foregroundColor);
-	XSetWindowBackground(display,win,backgroundPixel);
-	XClearWindow(display,win);	
-	XSetForeground(display,gc,backgroundPixel);	
-	XFillRectangle(display,win,gc,0,0,512,512);
-	XSetForeground(display,gc,foregroundPixel);
-	XSetBackground(display,gc,backgroundPixel); */
+	//XSetWindowBackground(display,win,backgroundPixel);
+	//XClearWindow(display,win);	
+	//XSetForeground(display,gc,backgroundPixel);	
+	//XFillRectangle(display,win,gc,0,0,512,512);
+	//XSetForeground(display,gc,foregroundPixel);
+	//XSetBackground(display,gc,backgroundPixel);
 }
 
 /**
  * screen_set_pen_mode() - Set pen mode
  */
-screen_set_pen_mode()
+void screen_set_pen_mode()
 {
-/*
 	if (CurMode == ModeErase || CurMode == ModeInverse)
 	{
-		XSetBackground(display,gc,foregroundPixel);
-		XSetForeground(display,gc,backgroundPixel);
+		//XSetBackground(display,gc,foregroundPixel);
+		//XSetForeground(display,gc,backgroundPixel);
 	}
 	else
 	{
-		XSetBackground(display,gc,backgroundPixel);
-		XSetForeground(display,gc,foregroundPixel);
-	} */
+		//XSetBackground(display,gc,backgroundPixel);
+		//XSetForeground(display,gc,foregroundPixel);
+	}
 }
 
 /**
  * screen_block_draw(Coord1, Coord2) - Perform a block fill from Coord1 to Coord2
  */
-screen_block_draw(Coord1, Coord2)
+void screen_block_draw(Coord1, Coord2)
 padPt *Coord1;
 padPt *Coord2;
 {
@@ -186,38 +216,49 @@ padPt *Coord2;
 	y2=max(Coord1->y^0x1FF,Coord2->y^0x1FF);
 	screen_set_pen_mode();
 	// XFillRectangle(display, win, gc, x1, y1, x2-x1, y2-y1);
+    NSLog(@"draw block");
+    [content drawBlockX1: x1 Y1:y1 X2:x2-x1 Y2:y2-y1];
+}
+
+void screen_dot_draw_xy(short x, short y)
+{
+    [content drawDotX: x Y: y];
 }
 
 /**
  * screen_dot_draw(Coord) - Plot a mode 0 pixel
  */
-screen_dot_draw(Coord)
+void screen_dot_draw(Coord)
 padPt* Coord;
 {
 	screen_set_pen_mode();
 	//XDrawPoint(display, win, gc, Coord->x, Coord->y^0x1FF);
+    NSLog(@"draw dot");
+    [content drawDotX: Coord->x Y: Coord->y^0x1FF];
 }
 
 /**
  * screen_line_draw(Coord1, Coord2) - Draw a mode 1 line
  */
-screen_line_draw(Coord1, Coord2)
+void screen_line_draw(Coord1, Coord2)
 padPt* Coord1;
 padPt* Coord2;
 {
 	screen_set_pen_mode();
 	//  XDrawLine(display, win, gc, Coord1->x, Coord1->y^0x1FF, Coord2->x, Coord2->y^0x1FF);
+    NSLog(@"Draw line");
+    [content drawLineX1: Coord1->x Y1: Coord1->y^0x1FF X2: Coord2->x Y2: Coord2->y^0x1FF];
 }
 
 /**
  * screen_char_draw(Coord, ch, count) - Output buffer from ch* of length count as PLATO characters
  */
-screen_char_draw(Coord, ch, count)
+void screen_char_draw(Coord, ch, count)
 padPt* Coord;
 unsigned char* ch;
 unsigned char count;
 {
-  short offset; 
+  short offset = 0; 
   unsigned short x;    
   unsigned short y;
   unsigned short* px;  
@@ -231,8 +272,10 @@ unsigned char count;
   short deltaX=1;
   short deltaY=1;
   unsigned char *p;
-  unsigned char* curfont;
+  unsigned char* curfont = NULL;
   unsigned long mainColor, altColor;
+
+  NSLog(@"Draw ch %c",ch);
 
   if (CurMode==ModeRewrite)
     {
@@ -299,8 +342,10 @@ unsigned char count;
             {
               if (b<0) /* check sign bit. */
 		{
+		    //NSColor *c = [NSColor colorWithCalibratedRed: (float)mainColor.red
 			//XSetForeground(display,gc,mainColor);	
 			//XDrawPoint(display,win,gc,x,y);    
+                    screen_dot_draw_xy(x,y);
 		}
               ++x;
               b<<=1;
@@ -366,10 +411,14 @@ unsigned char count;
 		  //XSetForeground(display,gc,mainColor);
                   if (ModeBold)
                     {
-			//XDrawPoint(display,win,gc,*px+1,*py);
+                      screen_dot_draw_xy(*px+1,*py);
+                      screen_dot_draw_xy(*px,*py+1);
+                      screen_dot_draw_xy(*px+1,*py+1);
 			//XDrawPoint(display,win,gc,*px,*py+1);
 			//XDrawPoint(display,win,gc,*px+1,*py+1);
                     }
+                  
+                    screen_dot_draw_xy(*px,*py);
 		  //XDrawPoint(display,win,gc,*px,*py);
                 }
               else
@@ -379,10 +428,15 @@ unsigned char count;
 		      //XSetForeground(display,gc,altColor);
                       if (ModeBold)
                         {
+                 
+                          screen_dot_draw_xy(*px+1,*py);
+                          screen_dot_draw_xy(*px,*py+1);
+                          screen_dot_draw_xy(*px+1,*py+1);
 			  //XDrawPoint(display,win,gc,*px+1,*py);
 			  //XDrawPoint(display,win,gc,*px,*py+1);
 			  //XDrawPoint(display,win,gc,*px+1,*py+1); 
                         }
+                            screen_dot_draw_xy(*px,*py);
 		      //XDrawPoint(display,win,gc,*px,*py);
                     }
                 }
@@ -407,7 +461,7 @@ unsigned char count;
 /**
  * screen_tty_char - Called to plot chars when in tty mode
  */
-screen_tty_char(theChar)
+void screen_tty_char(theChar)
 padByte theChar;
 {
   if ((theChar >= 0x20) && (theChar < 0x7F)) {
@@ -441,7 +495,7 @@ padByte theChar;
 /**
  * Clear colors in colormap we've allocated
  */
-screen_clear_colors()
+void screen_clear_colors()
 {
 	unsigned long pixels[16];
 	int i;
@@ -506,27 +560,34 @@ padRGB* platocolor;
 /**
  * screen_foreground - Called to set foreground color.
  */
-screen_foreground(theColor)
+void screen_foreground(theColor)
 padRGB* theColor;
 {
-	foregroundColor.red=theColor->red;
-	foregroundColor.green=theColor->green;
-	foregroundColor.blue=theColor->blue;
-	foregroundPixel=screen_color_match(theColor);
-	//XSetForeground(display,gc,foregroundPixel);
+    NSColor *aColor = nil;
+
+    foregroundColor.red=theColor->red;
+    foregroundColor.green=theColor->green;
+    foregroundColor.blue=theColor->blue;
+    foregroundPixel=screen_color_match(theColor);
+    
+    aColor = [NSColor colorWithCalibratedRed: foregroundColor.red
+                                       green: foregroundColor.green
+                                        blue: foregroundColor.blue
+                                       alpha: 1.0];
+    [aColor set];
 }
 
 /**
  * screen_background - Called to set foreground color.
  */
-screen_background(theColor)
+void screen_background(theColor)
 padRGB* theColor;
 {
-	backgroundColor.red=theColor->red;
-	backgroundColor.green=theColor->green;
-	backgroundColor.blue=theColor->blue;
-	backgroundPixel=screen_color_match(theColor);
-	//XSetBackground(display,gc,backgroundPixel);
+    backgroundColor.red=theColor->red;
+    backgroundColor.green=theColor->green;
+    backgroundColor.blue=theColor->blue;
+    backgroundPixel=screen_color_match(theColor);
+    //XSetBackground(display,gc,backgroundPixel);
 }
 
 /**
@@ -550,7 +611,7 @@ unsigned long oldpixel,newpixel;
 	_screen_paint(x,y+1,oldpixel,newpixel);
 }
 
-screen_paint(Coord)
+void screen_paint(Coord)
 padPt* Coord;
 {
 	int x = Coord->x;
@@ -566,12 +627,10 @@ padPt* Coord;
 
 /**
  * screen_done()
- * Close down TGI
  */
-screen_done()
+void screen_done()
 {
-	screen_clear_colors();
-	//XFreeGC(display,gc);
-	//XDestroyWindow(display,win);
-	//XCloseDisplay(display);
+    screen_clear_colors();
+    [win close];
+    [win release];
 }

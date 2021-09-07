@@ -2,9 +2,27 @@
     APPCLASS = NSApplication; 
     DYNAMIC_CODE_GEN = YES; 
     FILESTABLE = {
-        CLASSES = (AppDelegate.m); 
+        CLASSES = (
+            AppDelegate.m, 
+            io.m, 
+            keyboard.m, 
+            protocol.m, 
+            screen.m, 
+            terminal.m, 
+            touch.m, 
+            PLATOView.m
+        ); 
         FRAMEWORKS = (AppKit.framework, Foundation.framework); 
-        H_FILES = (AppDelegate.h); 
+        H_FILES = (
+            AppDelegate.h, 
+            io.h, 
+            keyboard.h, 
+            protocol.h, 
+            screen.h, 
+            terminal.h, 
+            touch.h, 
+            PLATOView.h
+        ); 
         INTERFACES = (NEXTSTEP_PLATOterm.nib, WINDOWS_PLATOterm.nib); 
         OTHER_LINKED = (PLATOterm_main.m); 
         OTHER_SOURCES = (Makefile.preamble, Makefile, Makefile.postamble, m.template, h.template); 

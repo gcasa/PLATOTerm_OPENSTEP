@@ -4,7 +4,14 @@
 
 @interface AppDelegate : NSObject
 {
+    IBOutlet NSPanel *_panel;
+    IBOutlet NSTextField *_hostnameField;
+    IBOutlet NSTextField *_portField;
 
+    NSTimer *_timer;
 }
+
+- (IBAction) startClient: (id)sender;
+- (IBAction) createConnection: (id)sender;
 
 @end
