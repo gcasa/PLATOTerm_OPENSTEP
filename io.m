@@ -17,8 +17,8 @@
 #include "io.h"
 #include "protocol.h"
 
-#define TRUE 1
-#define FALSE 0
+//#define TRUE 1
+//#define FALSE 0
 
 int rxlen;
 padByte rxBuf[32768];

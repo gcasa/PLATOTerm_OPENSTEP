@@ -176,6 +176,7 @@ void screen_clear()
 	screen_clear_colors();
 	screen_background(&backgroundColor);
 	screen_foreground(&foregroundColor);
+    [content clear];
 	//XSetWindowBackground(display,win,backgroundPixel);
 	//XClearWindow(display,win);	
 	//XSetForeground(display,gc,backgroundPixel);	

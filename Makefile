@@ -13,7 +13,8 @@ PROJECTVERSION = 2.6
 PROJECT_TYPE = Application
 LANGUAGE = English
 
-ICONSECTIONS =	-sectcreate __ICON app /NextLibrary/Frameworks/AppKit.framework/Resources/NSDefaultApplicationIcon.tiff
+NEXTSTEP_APPICON = plato.tiff
+ICONSECTIONS =	-sectcreate __ICON app plato.tiff
 
 LOCAL_RESOURCES = NEXTSTEP_PLATOterm.nib WINDOWS_PLATOterm.nib
 
