@@ -172,17 +172,17 @@ void screen_beep()
  */
 void screen_clear()
 {
-    io_replay_clear();
-    screen_clear_colors();
-    screen_background(&backgroundColor);
-    screen_foreground(&foregroundColor);
+	io_replay_clear();
+	screen_clear_colors();
+	screen_background(&backgroundColor);
+	screen_foreground(&foregroundColor);
     [content clear];
-    //XSetWindowBackground(display,win,backgroundPixel);
-    //XClearWindow(display,win);	
-    //XSetForeground(display,gc,backgroundPixel);	
-    //XFillRectangle(display,win,gc,0,0,512,512);
-    //XSetForeground(display,gc,foregroundPixel);
-    //XSetBackground(display,gc,backgroundPixel);
+	//XSetWindowBackground(display,win,backgroundPixel);
+	//XClearWindow(display,win);	
+	//XSetForeground(display,gc,backgroundPixel);	
+	//XFillRectangle(display,win,gc,0,0,512,512);
+	//XSetForeground(display,gc,foregroundPixel);
+	//XSetBackground(display,gc,backgroundPixel);
 }
 
 /**
