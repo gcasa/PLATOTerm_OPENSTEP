@@ -24,7 +24,7 @@
 
 - (IBAction) createConnection: (id)sender
 {
-    [_panel orderFrontRegardless];
+    [_panel makeKeyAndOrderFront: self];
 }
 
 - (IBAction) startClient: (id)sender

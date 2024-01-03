@@ -23,6 +23,7 @@
             touch.h, 
             PLATOView.h
         ); 
+        IMAGES = (); 
         INTERFACES = (NEXTSTEP_PLATOterm.nib, WINDOWS_PLATOterm.nib); 
         OTHER_LINKED = (PLATOterm_main.m); 
         OTHER_SOURCES = (Makefile.preamble, Makefile, Makefile.postamble, m.template, h.template); 
@@ -33,7 +34,9 @@
         WINDOWS_PLATOterm.nib = WINDOWS_PLATOterm.nib; 
     }; 
     MAKEFILEDIR = "$(NEXT_ROOT)/NextDeveloper/Makefiles/pb_makefiles"; 
+    NEXTSTEP_APPICON = plato.tiff; 
     NEXTSTEP_BUILDTOOL = /bin/gnumake; 
+    NEXTSTEP_DOCUMENTEXTENSIONS = (); 
     NEXTSTEP_INSTALLDIR = "$(HOME)/Apps"; 
     NEXTSTEP_MAINNIB = NEXTSTEP_PLATOterm.nib; 
     PDO_UNIX_BUILDTOOL = $NEXT_ROOT/NextDeveloper/bin/make; 

@@ -20,5 +20,6 @@
 - (void) drawLineX1: (short)x1 Y1: (short)y1 X2: (short)x2 Y2: (short)y2;
 - (void) drawDotX: (short)x Y: (short)y;
 - (void) drawBlockX1: (short)x1 Y1: (short)y1 X2: (short)x2 Y2: (short)y2;
+- (void) inverse;
 
 @end

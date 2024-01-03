@@ -14,11 +14,16 @@
 #include <sys/file.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <arpa/inet.h>
+#include <strings.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 #include "io.h"
 #include "protocol.h"
 
-#define TRUE 1
-#define FALSE 0
+//#define TRUE 1
+//#define FALSE 0
 
 int rxlen;
 padByte rxBuf[32768];
@@ -29,16 +34,16 @@ int sockfd;
 int fileflags;
 struct hostent *hp;
 
-io_inject(b,l)
+void io_inject(b,l)
 padByte* b;
 int l;
 {
 }
 
 /**
- * io_init() - Set-up the I/O
+ * void io_init() - Set-up the I/O
  */
-io_init(hostname,port)
+void io_init(hostname,port)
 char *hostname;
 unsigned short port;
 {
@@ -61,18 +66,18 @@ unsigned short port;
 }
 
 /**
- * io_send_byte(b) - Send specified byte out
+ * void io_send_byte(b) - Send specified byte out
  */
-io_send_byte(b)
+void io_send_byte(b)
 unsigned char b;
 {
 	write(sockfd, &b, 1);
 }
 
 /**
- * io_main() - The IO main loop
+ * void io_main() - The IO main loop
  */
-io_main()
+void io_main()
 {
 	rxlen = read(sockfd, &rxBuf[0], sizeof(rxBuf));
 	if (rxlen < 0 )
@@ -88,7 +93,7 @@ io_main()
 /**
  * Replay
  */
-io_replay()
+void io_replay()
 {
 	if (replaylen>0)
 		ShowPLATO(&replaybuf[0],replaylen);
@@ -97,7 +102,7 @@ io_replay()
 /**
  * Clear replay buffer
  */
-io_replay_clear()
+void io_replay_clear()
 {
 	if (replaylen>0)
 	{
@@ -107,9 +112,9 @@ io_replay_clear()
 }
 
 /**
- * io_done() - Called to close I/O
+ * void io_done() - Called to close I/O
  */
-io_done()
+void io_done()
 {
 	close(sockfd);
 }

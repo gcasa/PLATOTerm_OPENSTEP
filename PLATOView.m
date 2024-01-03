@@ -12,11 +12,6 @@
     return self;
 }
 
-- (BOOL) isFlipped
-{
-    return YES;
-}
-
 - (void) drawRect: (NSRect)f
 {
     [super drawRect: f];
@@ -25,6 +20,7 @@
 - (void) setBackgroundColor: (NSColor *)c
 {
     _backgroundColor = c;
+    [_backgroundColor set];
     [_backgroundColor retain];
 }
 
@@ -36,6 +32,7 @@
 - (void) setForegroundColor: (NSColor *)c
 {
     _foregroundColor = c;
+    [_foregroundColor set];
     [_foregroundColor retain];
 }
 
@@ -60,12 +57,14 @@
   r = [[NSCustomImageRep alloc] initWithDrawSelector: @selector(_clearSelector)
                                 delegate: self];
 
+  [i setFlipped: YES];
   [r setSize: NSMakeSize(512,512)];
   [i addRepresentation: r];
   [self setImage: i];
 
   [r release];
   [i release];
+  NSLog(@"Clear");
 }
 
 - (void) drawLineX1: (short)x1 Y1: (short)y1 X2: (short)x2 Y2: (short)y2
@@ -74,23 +73,13 @@
   float g = [_foregroundColor greenComponent];
   float b = [_foregroundColor blueComponent];
 
-#ifdef USE_PATH
-  NSBezierPath *path = nil;
-#endif
   [[self image] lockFocus];
   
   PSsetrgbcolor(r,g,b);
   PSmoveto(x1,y1);
   PSlineto(x2,y2);
   PSstroke();
-  
-#ifdef USE_PATH
-  [path moveToPoint: NSMakePoint(x1,y1)];
-  [path lineToPoint: NSMakePoint(x2,y2)];
 
-  [_foregroundColor set];
-  [path stroke];
-#endif
   [[self window] flushWindow];  
   [[self image] unlockFocus];
   [self setNeedsDisplay: YES];
@@ -99,6 +88,7 @@
 - (void) drawDotX: (short)x Y: (short)y
 {
   [[self image] lockFocus];
+
   [_foregroundColor set];
   NSRectFill(NSMakeRect(x,y,1,1));
   [[self window] flushWindow];  
@@ -110,6 +100,7 @@
 - (void) drawBlockX1: (short)x1 Y1: (short)y1 X2: (short)x2 Y2: (short)y2
 {
     [[self image] lockFocus];
+
     [_foregroundColor set];
     NSRectFill(NSMakeRect(x1,y1,x2,y2));
     [[self window] flushWindow];  
@@ -117,4 +108,16 @@
     [[self image] unlockFocus];
     [self setNeedsDisplay: YES];  
 }
+
+- (void) inverse
+{
+    
+}
+
+- (NSColor *) colorAtX: (int)x y: (int)y
+{
+    // NSBitmapImageRep *rep = [NSBitmapImageRep imageWithData: [[self image] TIFFRepresentation]];
+    return nil; // [rep colorAtX:x y:y];
+}
+
 @end
